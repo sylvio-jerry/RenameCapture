@@ -5,6 +5,7 @@ import 'package:rename_capture/themes/app_theme.dart';
 import 'app/routes/app_pages.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     GetMaterialApp(
       title: AppConstants.APP_NAME,

@@ -18,21 +18,24 @@ class SplashScreenView extends GetView<SplashScreenController> {
             const SizedBox(width: 30),
             Text(
               "Welcome to",
-              style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white, fontFamily: 'Roboto'),
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall!
+                  .copyWith(color: Colors.white, fontFamily: 'Roboto'),
             ),
             const SizedBox(width: 10),
             Text(
               'Rename Capture',
               style: Theme.of(context)
                   .textTheme
-                  .headlineMedium!.copyWith(color: Colors.white, fontFamily: 'Lobster'),
+                  .headlineMedium!
+                  .copyWith(color: Colors.white, fontFamily: 'Lobster'),
             ),
-            
           ],
         ),
       ),
       nextScreen: HomeView(),
-      duration: 3000,
+      duration: 1000,
       backgroundColor: Theme.of(context).colorScheme.primary,
       splashTransition: SplashTransition.scaleTransition,
       splashIconSize: 200,

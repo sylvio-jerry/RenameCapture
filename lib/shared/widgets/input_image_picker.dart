@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,10 +7,10 @@ import 'package:rename_capture/shared/constants/app_color.dart';
 
 class InputImagePicker extends StatelessWidget {
   const InputImagePicker({
-    super.key,
+    Key? key,
     required this.label,
     required this.onImageSelected,
-  });
+  }) : super(key: key);
 
   final String label;
   final Function(Uint8List?) onImageSelected;

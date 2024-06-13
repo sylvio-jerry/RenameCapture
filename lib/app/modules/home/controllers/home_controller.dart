@@ -1,23 +1,27 @@
 import 'package:get/get.dart';
+import 'package:rename_capture/app/models/image_model.dart';
+import 'package:rename_capture/app/services/database_helper.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
+  var imageList = <ImageModel>[];
+  final DatabaseHelper dbHelper = DatabaseHelper();
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
+    loadImages();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  Future<void> loadImages() async {
+    List<ImageModel> images = await dbHelper.getImages();
+    imageList.assignAll(images);
+    print("load data called");
+    print('Images: $images');
+    update();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
+  Future<void> addImage(String name, String path) async {
+    ImageModel newImage = ImageModel(name: name, path: path);
+    await dbHelper.insertImage(newImage);
   }
-
-  void increment() => count.value++;
 }
