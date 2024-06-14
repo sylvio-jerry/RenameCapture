@@ -1,9 +1,8 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
 import 'package:rename_capture/app/models/image_model.dart';
 import 'package:rename_capture/app/services/database_helper.dart';
 import 'dart:io';
@@ -20,18 +19,24 @@ class FormulaireController extends GetxController {
     }
   }
 
+  
   Future<void> saveImage() async {
     if (imageBytes.value != null && imageNameController.text.isNotEmpty) {
       try {
-        Directory appDir = await getApplicationDocumentsDirectory();
-        String imagePath = join(appDir.path, '${imageNameController.text}.png');
+        String dirPath = await dbHelper.getRenameCapturePath();
+        String imagePath = '$dirPath/${imageNameController.text}.png';
 
         File imageFile = File(imagePath);
         await imageFile.writeAsBytes(imageBytes.value!);
 
-        ImageModel newImage =
-            ImageModel(name: imageNameController.text, path: imagePath);
+        ImageModel newImage = ImageModel(name: imageNameController.text, path: imagePath);
         await dbHelper.insertImage(newImage);
+        // Ajoute l'image au MediaStore pour qu'elle apparaisse dans la galerie
+    final result = await ImageGallerySaver.saveFile(imagePath);
+    if (result['isSuccess']) {
+      print("Image added to gallery");
+    }
+
         // Afficher un message de succès
         Get.snackbar("Success", "L'image a été enregistrée avec succès",
             snackPosition: SnackPosition.BOTTOM,
@@ -54,6 +59,7 @@ class FormulaireController extends GetxController {
           backgroundColor: Colors.orange);
     }
   }
+
 
   void resetForm() {
     imageBytes.value = null;

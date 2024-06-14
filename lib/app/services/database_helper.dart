@@ -52,4 +52,33 @@ class DatabaseHelper {
       );
     });
   }
+
+  Future<void> deleteImage(int id) async {
+    final db = await database;
+    await db!.delete(
+      'Images',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  Future<String> getRenameCapturePath() async {
+    // Obtient le chemin du répertoire de stockage externe public (niveau où se trouve le dossier DCIM)
+    Directory? externalStorageDir = await getExternalStoragePublicDirectory();
+    // Détermine le chemin du dossier RenameCapture
+    String renameCapturePath = '${externalStorageDir!.path}/RenameCapture';
+
+    // Crée le dossier RenameCapture s'il n'existe pas encore
+    Directory(renameCapturePath).createSync(recursive: true);
+
+    return renameCapturePath;
+  }
+
+  Future<Directory?> getExternalStoragePublicDirectory() async {
+    if (Platform.isAndroid) {
+      return Directory('/storage/emulated/0');
+    } else {
+      return await getExternalStorageDirectory();
+    }
+  }
 }

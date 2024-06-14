@@ -1,27 +1,21 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rename_capture/app/models/image_model.dart';
-import 'package:rename_capture/app/services/database_helper.dart';
+import 'package:rename_capture/app/modules/image_list/views/image_list_view.dart';
+import 'package:rename_capture/app/modules/settings/views/settings_view.dart';
 
 class HomeController extends GetxController {
-  var imageList = <ImageModel>[];
-  final DatabaseHelper dbHelper = DatabaseHelper();
+  int selectedIndex = 0;
 
-  @override
-  void onInit() {
-    super.onInit();
-    loadImages();
-  }
+  final List<Widget> screens = [
+    ImageListView(),
+    SettingsView(),
+  ];
 
-  Future<void> loadImages() async {
-    List<ImageModel> images = await dbHelper.getImages();
-    imageList.assignAll(images);
-    print("load data called");
-    print('Images: $images');
+  void changeTabIndex(int index) {
+    selectedIndex = index;
     update();
   }
 
-  Future<void> addImage(String name, String path) async {
-    ImageModel newImage = ImageModel(name: name, path: path);
-    await dbHelper.insertImage(newImage);
-  }
+  
+
 }
