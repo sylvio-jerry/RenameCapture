@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:rename_capture/app/routes/app_pages.dart';
 import 'package:rename_capture/shared/constants/app_color.dart';
-import 'package:rename_capture/shared/widgets/custom_button.dart';
 import 'package:rename_capture/shared/widgets/custom_form_field.dart';
 import 'package:rename_capture/shared/widgets/custom_outline_button.dart';
 import 'package:rename_capture/shared/widgets/input_image_picker.dart';
@@ -18,7 +17,7 @@ class FormulaireView extends GetView<FormulaireController> {
         elevation: 0,
         backgroundColor: Theme.of(context).colorScheme.primary,
         leading: IconButton(
-            onPressed: () => Get.back(),
+            onPressed: () => Get.toNamed(Routes.HOME),
             icon: Icon(
               Icons.arrow_back,
               color: AppColors.white,
@@ -45,8 +44,13 @@ class FormulaireView extends GetView<FormulaireController> {
               CustomFormField(
                 label: "Nom",
                 hintText: "nom de la photo",
-                // validator: (nom) => controller.validateName(nom),
-                // controller: controller.nomVisiteurController,
+                validator: (nom) {
+                  if (nom == null || nom.isEmpty) {
+                    return 'Le nom ne peut pas être vide';
+                  }
+                  return null;
+                },
+                controller: controller.imageNameController,
                 iconData: Icons.person,
                 keyboardType: TextInputType.name,
               ),
@@ -54,7 +58,6 @@ class FormulaireView extends GetView<FormulaireController> {
               InputImagePicker(
                 label: "Photo",
                 onImageSelected: (imageBytes) {
-                  // Gérer les octets de l'image sélectionnée
                   if (imageBytes != null) {
                     print('Image sélectionnée!');
                   } else {
@@ -69,6 +72,9 @@ class FormulaireView extends GetView<FormulaireController> {
                   label: "Enregistrer",
                   borderColor: Theme.of(context).colorScheme.secondary,
                   textColor: Theme.of(context).colorScheme.secondary,
+                  onPressed: () {
+                    controller.saveImage();
+                  },
                 ),
               )
             ],

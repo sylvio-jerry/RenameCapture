@@ -1,23 +1,21 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rename_capture/app/modules/image_list/views/image_list_view.dart';
+import 'package:rename_capture/app/modules/settings/views/settings_view.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
+  int selectedIndex = 0;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  final List<Widget> screens = [
+    ImageListView(),
+    SettingsView(),
+  ];
+
+  void changeTabIndex(int index) {
+    selectedIndex = index;
+    update();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
+  
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }
