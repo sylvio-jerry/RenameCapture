@@ -32,6 +32,6 @@ Future<void> requestPermissions() async {
   if (!storagePermissionGranted) {
     // Handle the case where permission is not granted
     // You can show a dialog or close the app
-    print("Storage permission not granted.");
+    print("Storage permission not granted aaa.");
   }
 }

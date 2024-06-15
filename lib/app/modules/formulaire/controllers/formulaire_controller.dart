@@ -19,7 +19,6 @@ class FormulaireController extends GetxController {
     }
   }
 
-  
   Future<void> saveImage() async {
     if (imageBytes.value != null && imageNameController.text.isNotEmpty) {
       try {
@@ -29,13 +28,14 @@ class FormulaireController extends GetxController {
         File imageFile = File(imagePath);
         await imageFile.writeAsBytes(imageBytes.value!);
 
-        ImageModel newImage = ImageModel(name: imageNameController.text, path: imagePath);
+        ImageModel newImage =
+            ImageModel(name: imageNameController.text, path: imagePath);
         await dbHelper.insertImage(newImage);
-        // Ajoute l'image au MediaStore pour qu'elle apparaisse dans la galerie
-    final result = await ImageGallerySaver.saveFile(imagePath);
-    if (result['isSuccess']) {
-      print("Image added to gallery");
-    }
+
+        // final result = await ImageGallerySaver.saveFile(imagePath);
+        // if (result['isSuccess']) {
+        //   print("Image added to gallery");
+        // }
 
         // Afficher un message de succès
         Get.snackbar("Success", "L'image a été enregistrée avec succès",
@@ -59,7 +59,6 @@ class FormulaireController extends GetxController {
           backgroundColor: Colors.orange);
     }
   }
-
 
   void resetForm() {
     imageBytes.value = null;
