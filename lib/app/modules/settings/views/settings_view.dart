@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:rename_capture/app/modules/formulaire/controllers/formulaire_controller.dart';
-import 'package:rename_capture/app/modules/image_list/controllers/image_list_controller.dart';
 import 'package:rename_capture/shared/constants/app_color.dart';
-import 'package:rename_capture/shared/widgets/custom_outline_button.dart';
 import 'package:rename_capture/shared/widgets/custom_solide_button.dart';
 import 'package:rename_capture/shared/widgets/modal_confirmation.dart';
 

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rename_capture/app/modules/image_list/controllers/image_list_controller.dart';
 import 'package:rename_capture/app/services/database_helper.dart';

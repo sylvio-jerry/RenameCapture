@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rename_capture/app/modules/formulaire/views/formulaire_view.dart';
 import 'package:rename_capture/app/routes/app_pages.dart';
 import 'package:rename_capture/shared/constants/app_color.dart';
 import 'package:lottie/lottie.dart';
