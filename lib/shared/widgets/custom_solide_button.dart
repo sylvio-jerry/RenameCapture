@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CustomOutlineButton extends StatelessWidget {
-  const CustomOutlineButton({
+class CustomSolideButton extends StatelessWidget {
+  const CustomSolideButton({
     Key? key,
     this.textColor,
-    required this.borderColor,
+    required this.bgColor,
     required this.label,
     required this.onPressed,
     this.icon,
   }) : super(key: key);
 
   final Color? textColor;
-  final Color borderColor;
+  final Color bgColor;
   final String label;
   final VoidCallback onPressed;
   final IconData? icon;
@@ -25,7 +25,7 @@ class CustomOutlineButton extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed, // Utiliser onPressed
         style: TextButton.styleFrom(
-          side: BorderSide(color: borderColor),
+          backgroundColor: bgColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.0),
           ),

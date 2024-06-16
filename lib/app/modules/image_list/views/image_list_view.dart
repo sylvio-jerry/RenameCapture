@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:rename_capture/app/models/image_model.dart';
+import 'package:rename_capture/app/modules/settings/controllers/settings_controller.dart';
 import 'package:rename_capture/shared/constants/app_color.dart';
+import 'package:rename_capture/shared/widgets/image_tile.dart';
 
 import '../controllers/image_list_controller.dart';
 import 'package:rename_capture/shared/widgets/input_search.dart';
@@ -11,6 +14,7 @@ import 'package:rename_capture/shared/widgets/input_search.dart';
 class ImageListView extends GetView<ImageListController> {
   ImageListView({Key? key}) : super(key: key);
   final controller = Get.put(ImageListController());
+  final controllers = Get.put(SettingsController());
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ImageListController>(
@@ -38,36 +42,16 @@ class ImageListView extends GetView<ImageListController> {
                             padding: EdgeInsets.all(10.0),
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
+                              crossAxisCount: 3,
                               crossAxisSpacing: 10.0,
                               mainAxisSpacing: 10.0,
-                              childAspectRatio: 1.0,
-                              mainAxisExtent: 200.0,
+                              // childAspectRatio: 1.0,
+                              mainAxisExtent: 170.0,
                             ),
                             itemCount: state.imageList.length,
                             itemBuilder: (context, index) {
                               final image = state.imageList[index];
-                              return GridTile(
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: Image.file(
-                                        File(image.path),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      image.name,
-                                      style: TextStyle(
-                                        color: AppColors.greyDark,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              );
+                              return ImageTile(image: image);
                             },
                           ),
                   ),
