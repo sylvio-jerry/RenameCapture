@@ -6,7 +6,11 @@ import 'package:get/get.dart';
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rename_capture/app/models/image_model.dart';
+import 'package:rename_capture/app/modules/home/controllers/home_controller.dart';
+import 'package:rename_capture/app/modules/home/views/home_view.dart';
 import 'package:rename_capture/app/modules/image_list/controllers/image_list_controller.dart';
+import 'package:rename_capture/app/modules/image_list/views/image_list_view.dart';
+import 'package:rename_capture/app/routes/app_pages.dart';
 import 'package:rename_capture/app/services/database_helper.dart';
 import 'dart:io';
 
@@ -15,6 +19,7 @@ class FormulaireController extends GetxController {
   final DatabaseHelper dbHelper = DatabaseHelper();
   final imageNameController = TextEditingController();
   final imageListController = Get.find<ImageListController>();
+  final homeController = Get.find<HomeController>();
 
   Future<void> pickImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.camera);
@@ -46,7 +51,7 @@ class FormulaireController extends GetxController {
             snackPosition: SnackPosition.TOP,
             colorText: Colors.white,
             backgroundColor: Colors.green,
-            duration: Durations.extralong4);
+            duration: const Duration(seconds: 2));
         resetForm();
         imageListController.loadImages();
       } catch (e) {
@@ -55,7 +60,7 @@ class FormulaireController extends GetxController {
             snackPosition: SnackPosition.TOP,
             colorText: Colors.white,
             backgroundColor: Colors.red,
-            duration: Durations.extralong4);
+            duration: const Duration(seconds: 2));
         resetForm();
         print('Erreur: $e');
       }
@@ -64,12 +69,11 @@ class FormulaireController extends GetxController {
           snackPosition: SnackPosition.TOP,
           colorText: Colors.white,
           backgroundColor: Colors.orange,
-          duration: Durations.extralong4);
+          duration: const Duration(seconds: 2));
     }
   }
 
-  Future<bool> updateImage(ImageModel currentImage) async {
-    print('image updated: $currentImage');
+  Future<void> updateImage(ImageModel currentImage) async {
     if (imageBytes.value != null && imageNameController.text.isNotEmpty) {
       try {
         String dirPath = await dbHelper.getRenameCapturePath();
@@ -88,28 +92,25 @@ class FormulaireController extends GetxController {
             snackPosition: SnackPosition.TOP,
             colorText: Colors.white,
             backgroundColor: Colors.green,
-            duration: Durations.extralong4);
+            duration: const Duration(seconds: 2));
         resetForm();
-        imageListController.loadImages();
-        return true;
+        // Get.toNamed(Routes.HOME);
+        Get.toNamed(Routes.HOME);
       } catch (e) {
         Get.snackbar("Erreur",
             "Une erreur s'est produite lors de la mise à jour de l'image",
             snackPosition: SnackPosition.TOP,
             colorText: Colors.white,
             backgroundColor: Colors.red,
-            duration: Durations.extralong4);
-        // resetForm();
+            duration: const Duration(seconds: 2));
         print('Erreur: $e');
-        return false;
       }
     } else {
       Get.snackbar("Erreur", "Veuillez prendre une image et entrer un nom",
           snackPosition: SnackPosition.TOP,
           colorText: Colors.white,
           backgroundColor: Colors.orange,
-          duration: Durations.extralong4);;
-      return false;
+          duration: const Duration(seconds: 2));
     }
   }
 
@@ -129,20 +130,19 @@ class FormulaireController extends GetxController {
           snackPosition: SnackPosition.TOP,
           colorText: Colors.white,
           backgroundColor: Colors.green,
-          duration: Durations.extralong4);
-
-      // Actualiser la liste des images
-      imageListController.loadImages();
+          duration: const Duration(seconds: 2));
 
       // Réinitialiser le formulaire
       resetForm();
+
+      Get.toNamed(Routes.HOME);
     } catch (e) {
       Get.snackbar("Erreur",
           "Une erreur s'est produite lors de la suppression de l'image",
           snackPosition: SnackPosition.TOP,
           colorText: Colors.white,
           backgroundColor: Colors.red,
-          duration: Durations.extralong4);
+          duration: const Duration(seconds: 2));
       print('Erreur: $e');
     }
   }

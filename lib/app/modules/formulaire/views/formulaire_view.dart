@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:rename_capture/app/models/image_model.dart';
-import 'package:rename_capture/app/routes/app_pages.dart';
 import 'package:rename_capture/shared/constants/app_color.dart';
 import 'package:rename_capture/shared/widgets/custom_form_field.dart';
 import 'package:rename_capture/shared/widgets/custom_outline_button.dart';
@@ -14,13 +13,6 @@ import '../controllers/formulaire_controller.dart';
 
 class FormulaireView extends GetView<FormulaireController> {
   const FormulaireView({Key? key}) : super(key: key);
-
-  Future<void> updateImage(ImageModel currentImage) async {
-    final result = await controller.updateImage(currentImage);
-    if (result) {
-      Get.toNamed(Routes.IMAGE_LIST);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

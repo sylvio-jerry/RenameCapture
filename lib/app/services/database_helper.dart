@@ -101,6 +101,12 @@ class DatabaseHelper {
   }
 
 
+ Future<int> getImageCount() async {
+    final db = await database;
+    final count = Sqflite.firstIntValue(await db!.rawQuery('SELECT COUNT(*) FROM Images'));
+    return count ?? 0;
+  }
+  
   Future<String> getRenameCapturePath() async {
     // Obtient le chemin du répertoire de stockage externe public (niveau où se trouve le dossier DCIM)
     Directory? externalStorageDir = await getExternalStoragePublicDirectory();

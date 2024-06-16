@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rename_capture/app/modules/formulaire/views/formulaire_view.dart';
 import 'package:rename_capture/app/routes/app_pages.dart';
 import 'package:rename_capture/shared/constants/app_color.dart';
 import 'package:lottie/lottie.dart';
@@ -11,6 +12,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(

@@ -3,8 +3,8 @@ import 'package:rename_capture/shared/constants/app_color.dart';
 import 'package:rename_capture/shared/constants/font_size.dart';
 
 class InputSearch extends StatelessWidget {
-  const InputSearch({super.key, this.controller, this.onChange});
-  final TextEditingController? controller;
+  const InputSearch({super.key, this.searchEditingController, this.onChange});
+  final TextEditingController? searchEditingController;
   final void Function(String?)? onChange;
 
   @override
@@ -13,7 +13,7 @@ class InputSearch extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
       // height: 55,
       child: TextField(
-        controller: controller,
+        controller: searchEditingController,
         onChanged: onChange,
         style: Theme.of(context)
             .textTheme

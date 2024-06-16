@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rename_capture/app/modules/home/bindings/home_binding.dart';
 import 'package:rename_capture/shared/constants/app_constant.dart';
@@ -20,6 +17,8 @@ void main() async {
       getPages: AppPages.routes,
       initialBinding: HomeBinding(),
       debugShowCheckedModeBanner: false,
+      defaultTransition: Transition.fadeIn,
+      transitionDuration: 500.milliseconds,
       theme: AppTheme.light,
       themeMode: ThemeMode.light,
     ),

@@ -1,11 +1,13 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:rename_capture/app/models/image_model.dart';
 import 'package:rename_capture/app/services/database_helper.dart';
-import 'package:rename_capture/shared/constants/app_color.dart';
 
 class ImageListController extends GetxController {
-  var imageList = <ImageModel>[];
   final DatabaseHelper dbHelper = DatabaseHelper();
+  var imageList = <ImageModel>[];
+  TextEditingController searchEditingController = TextEditingController();
+  var isLoading = true;
 
   @override
   void onInit() {
@@ -14,34 +16,35 @@ class ImageListController extends GetxController {
   }
 
   Future<void> loadImages() async {
-    List<ImageModel> images = await dbHelper.getImages();
-    imageList.assignAll(images);
-    print("load data called");
-    print('Images: $images');
-    update();
+    isLoading = true; // Définir isLoading à true avant de charger les images
+    try {
+      print("load data called");
+      List<ImageModel> images = await dbHelper.getImages();
+      imageList.assignAll(images);
+      print('Images: $images');
+    } catch (e) {
+      print('Error loading images: $e');
+    } finally {
+      isLoading = false; // Mettre isLoading à false après le chargement
+      update();
+    }
   }
 
-  Future<void> deleteAll() async {
-    try {
-      // Supprimer toutes les images et réinitialiser le dossier RenameCapture
-      await dbHelper.deleteAllImages();
-
-      // Afficher un message de succès
-      Get.snackbar("Success", "Toutes les images et la base de données ont été supprimées avec succès",
-          snackPosition: SnackPosition.BOTTOM,
-          colorText: AppColors.white,
-          backgroundColor: AppColors.green);
-
-      // Actualiser la liste des images
-      loadImages();
-
-    } catch (e) {
-      Get.snackbar("Erreur",
-          "Une erreur s'est produite lors de la suppression des images et de la base de données",
-          snackPosition: SnackPosition.BOTTOM,
-          colorText: AppColors.white,
-          backgroundColor: AppColors.red);
-      print('Erreur: $e');
+  void filterImages() async {
+    await loadImages();
+    final searchText = searchEditingController.text.toLowerCase();
+    if (searchText.isEmpty) {
+      // Si la requête est vide, afficher toutes les images
+      return;
+    } else {
+      isLoading = true;
+      // Filtrer les images en fonction du nom
+      var filteredImages = imageList
+          .where((image) => image.name.toLowerCase().contains(searchText))
+          .toList();
+      imageList.assignAll(filteredImages);
+      isLoading = false;
+      update();
     }
   }
 }
