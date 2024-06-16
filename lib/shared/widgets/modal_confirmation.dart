@@ -46,7 +46,7 @@ void showModalConfirmation(
                 ),
               ),
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,7 +77,7 @@ void showModalConfirmation(
                 ],
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
             ],
           ),

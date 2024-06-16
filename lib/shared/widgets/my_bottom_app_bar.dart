@@ -10,10 +10,10 @@ class MyBottomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
       builder: (controller) => BottomAppBar(
-        notchMargin: 5.0,
-        shape: CircularNotchedRectangle(),
-        color: AppColors.greyDark,
         height: 75,
+        notchMargin: 5.0,
+        shape: const CircularNotchedRectangle(),
+        color: AppColors.greyDark,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -22,12 +22,14 @@ class MyBottomAppBar extends StatelessWidget {
               icon: Icons.list,
               title: 'Liste',
               active: controller.selectedIndex == 0,
+              onTap: () => controller.changeTabIndex(0),
             ),
             buildBottomNavItem(
               index: 1,
               icon: Icons.settings,
-              title: 'Paramètres',
+              title: 'Paramètre',
               active: controller.selectedIndex == 1,
+              onTap: () => controller.changeTabIndex(1),
             ),
           ],
         ),
@@ -35,13 +37,15 @@ class MyBottomAppBar extends StatelessWidget {
     );
   }
 
-  Widget buildBottomNavItem(
-      {required int index,
-      required IconData icon,
-      required String title,
-      required bool active}) {
+  Widget buildBottomNavItem({
+    required int index,
+    required IconData icon,
+    required String title,
+    required bool active,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
-      onTap: () => Get.find<HomeController>().changeTabIndex(index),
+      onTap: onTap,
       child: SizedBox(
         width: 100,
         child: Column(
