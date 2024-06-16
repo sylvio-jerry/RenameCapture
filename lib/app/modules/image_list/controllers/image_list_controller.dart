@@ -15,6 +15,11 @@ class ImageListController extends GetxController {
     loadImages();
   }
 
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
   Future<void> loadImages() async {
     isLoading = true; // Définir isLoading à true avant de charger les images
     try {
@@ -45,4 +50,5 @@ class ImageListController extends GetxController {
       update();
     }
   }
+
 }

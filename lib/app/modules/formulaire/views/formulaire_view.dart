@@ -39,7 +39,7 @@ class FormulaireView extends GetView<FormulaireController> {
               size: 30,
             )),
         title: Text(
-          'Prendre une photo',
+          currentImage != null ? "Modifier la photo" : "Prendre une photo",
           style: Theme.of(context)
               .textTheme
               .titleLarge!
@@ -84,8 +84,8 @@ class FormulaireView extends GetView<FormulaireController> {
                       borderColor: Theme.of(context).colorScheme.secondary,
                       textColor: Theme.of(context).colorScheme.secondary,
                       icon: currentImage != null
-                          ? Icons.save
-                          : Icons.edit_note_sharp,
+                          ? Icons.edit_note_sharp
+                          : Icons.save,
                       onPressed: () {
                         if (currentImage != null) {
                           controller.updateImage(currentImage);
