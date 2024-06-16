@@ -72,13 +72,7 @@ class FormulaireView extends GetView<FormulaireController> {
               SizedBox(height: 50),
               InputImagePicker(
                 label: "Photo",
-                onImageSelected: (imageBytes) {
-                  if (imageBytes != null) {
-                    print('Image sélectionnée!');
-                  } else {
-                    print('Aucune image sélectionnée.');
-                  }
-                },
+                onImageSelected: (imageBytes) {},
               ),
               SizedBox(height: 50),
               Align(

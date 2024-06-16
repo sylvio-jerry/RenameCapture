@@ -16,7 +16,6 @@ class HomeController extends GetxController {
   ];
 
   void changeTabIndex(int index) {
-    log('changeTabIndex =============================> ($index)');
     selectedIndex = index;
     // Initialisez le contrôleur seulement si ce n'est pas déjà fait
     if (index == 0 && !Get.isRegistered<ImageListController>()) {

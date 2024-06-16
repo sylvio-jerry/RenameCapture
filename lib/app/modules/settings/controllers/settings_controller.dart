@@ -52,7 +52,6 @@ class SettingsController extends GetxController {
   }
 
   Future<void> getImageCount() async {
-    print("getImageCount called");
     int count = await dbHelper.getImageCount();
     imageCount = count;
     update();

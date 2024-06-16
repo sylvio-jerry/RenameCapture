@@ -8,23 +8,18 @@ class HandlePermission {
     if (build.version.sdkInt >= 30) {
       var re = await Permission.manageExternalStorage.request();
       if (re.isGranted) {
-        print('granted');
         return true;
       } else {
-        print('not granted');
         return false;
       }
     } else {
       if (await permission.isGranted) {
-        print('granted');
         return true;
       } else {
         var result = await permission.request();
         if (result.isGranted) {
-          print('granted');
           return true;
         } else {
-          print('not granted');
           return false;
         }
       }

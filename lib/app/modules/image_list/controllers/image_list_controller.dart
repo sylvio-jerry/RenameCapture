@@ -18,10 +18,8 @@ class ImageListController extends GetxController {
   Future<void> loadImages() async {
     isLoading = true; // Définir isLoading à true avant de charger les images
     try {
-      print("load data called");
       List<ImageModel> images = await dbHelper.getImages();
       imageList.assignAll(images);
-      print('Images: $images');
     } catch (e) {
       print('Error loading images: $e');
     } finally {

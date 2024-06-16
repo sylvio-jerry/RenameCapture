@@ -155,12 +155,10 @@ class FormulaireController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    log('FormulaireController initialized');
   }
 
   @override
   void onClose() {
-    log('FormulaireController detruit');
     resetForm();
     super.onClose();
   }
