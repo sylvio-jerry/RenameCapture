@@ -15,7 +15,4 @@ class HomeController extends GetxController {
     selectedIndex = index;
     update();
   }
-
-  
-
 }

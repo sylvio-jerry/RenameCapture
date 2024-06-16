@@ -1,23 +1,46 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
+import 'package:rename_capture/app/models/image_model.dart';
 import 'package:rename_capture/app/routes/app_pages.dart';
 import 'package:rename_capture/shared/constants/app_color.dart';
 import 'package:rename_capture/shared/widgets/custom_form_field.dart';
 import 'package:rename_capture/shared/widgets/custom_outline_button.dart';
 import 'package:rename_capture/shared/widgets/input_image_picker.dart';
+import 'package:rename_capture/shared/widgets/modal_confirmation.dart';
 import '../controllers/formulaire_controller.dart';
 
 class FormulaireView extends GetView<FormulaireController> {
   const FormulaireView({Key? key}) : super(key: key);
+
+  Future<void> updateImage(ImageModel currentImage) async {
+    final result = await controller.updateImage(currentImage);
+    if (result) {
+      Get.toNamed(Routes.IMAGE_LIST);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final ImageModel? currentImage = Get.arguments;
+
+    if (currentImage != null) {
+      // Utiliser addPostFrameCallback pour différer la mise à jour de l'état
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        controller.imageNameController.text = currentImage.name;
+        controller.imageBytes.value = File(currentImage.path).readAsBytesSync();
+      });
+    }
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Theme.of(context).colorScheme.primary,
         leading: IconButton(
-            onPressed: () => Get.toNamed(Routes.HOME),
+            onPressed: () => Get.back(),
             icon: Icon(
               Icons.arrow_back,
               color: AppColors.white,
@@ -68,13 +91,46 @@ class FormulaireView extends GetView<FormulaireController> {
               SizedBox(height: 50),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: CustomOutlineButton(
-                  label: "Enregistrer",
-                  borderColor: Theme.of(context).colorScheme.secondary,
-                  textColor: Theme.of(context).colorScheme.secondary,
-                  onPressed: () {
-                    controller.saveImage();
-                  },
+                child: Column(
+                  children: [
+                    CustomOutlineButton(
+                      label: currentImage != null ? "Modifier" : "Enregistrer",
+                      borderColor: Theme.of(context).colorScheme.secondary,
+                      textColor: Theme.of(context).colorScheme.secondary,
+                      icon: currentImage != null
+                          ? Icons.save
+                          : Icons.edit_note_sharp,
+                      onPressed: () {
+                        if (currentImage != null) {
+                          controller.updateImage(currentImage);
+                        } else {
+                          controller.saveImage();
+                        }
+                      },
+                    ),
+                    currentImage != null
+                        ? Column(
+                            children: [
+                              SizedBox(height: 20),
+                              CustomOutlineButton(
+                                label: "Supprimer",
+                                borderColor: AppColors.red,
+                                textColor: AppColors.red,
+                                icon: Icons.dangerous_outlined,
+                                onPressed: () {
+                                  showModalConfirmation(context,
+                                      onTapCancel: () {
+                                    Navigator.pop(context);
+                                  }, onTapOk: () {
+                                    controller.deleteImage(currentImage);
+                                    Navigator.pop(context);
+                                  });
+                                },
+                              ),
+                            ],
+                          )
+                        : SizedBox(),
+                  ],
                 ),
               )
             ],

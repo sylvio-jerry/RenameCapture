@@ -40,6 +40,17 @@ class DatabaseHelper {
     );
   }
 
+  Future<void> updateImage(ImageModel image) async {
+    final db = await database;
+    await db!.update(
+      'Images',
+      image.toMap(),
+      where: 'id = ?',
+      whereArgs: [image.id],
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
   Future<List<ImageModel>> getImages() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db!.query('Images');
@@ -53,7 +64,8 @@ class DatabaseHelper {
     });
   }
 
-  Future<void> deleteImage(int id) async {
+  Future<void> deleteImage(int? id) async {
+    if(id==null) return;
     final db = await database;
     await db!.delete(
       'Images',
@@ -61,6 +73,33 @@ class DatabaseHelper {
       whereArgs: [id],
     );
   }
+
+  Future<void> deleteAllImages() async {
+    // Récupérer toutes les images de la base de données
+    List<ImageModel> images = await getImages();
+    
+    // Supprimer chaque fichier d'image
+    for (var image in images) {
+      final file = File(image.path);
+      if (await file.exists()) {
+        await file.delete();
+      }
+    }
+
+    // Supprimer toutes les entrées de la table Images
+    final db = await database;
+    await db!.delete('Images');
+
+    // Supprimer tous les fichiers du dossier RenameCapture
+    String dirPath = await getRenameCapturePath();
+    Directory dir = Directory(dirPath);
+    if (await dir.exists()) {
+      dir.deleteSync(recursive: true);
+    }
+    // Recréer le dossier RenameCapture vide
+    Directory(dirPath).createSync(recursive: true);
+  }
+
 
   Future<String> getRenameCapturePath() async {
     // Obtient le chemin du répertoire de stockage externe public (niveau où se trouve le dossier DCIM)
